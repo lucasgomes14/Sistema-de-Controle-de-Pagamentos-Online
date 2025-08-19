@@ -1,0 +1,32 @@
+package com.ifpb.payment.facade;
+
+import com.ifpb.payment.model.PaymentEntity;
+import com.ifpb.payment.observer.PaymentObserver;
+import com.ifpb.payment.repository.PaymentRepository;
+import com.ifpb.payment.strategy.PaymentStrategy;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
+public class PaymentFacade {
+    private final PaymentRepository paymentRepository;
+    private final List<PaymentObserver> observers;
+
+    public PaymentFacade(PaymentRepository paymentRepository, List<PaymentObserver> observers) {
+        this.paymentRepository = paymentRepository;
+
+        this.observers = observers;
+    }
+
+    public PaymentEntity processPayment(PaymentEntity payment, PaymentStrategy strategy) {
+        double finalAmount = strategy.calculateFinalAmount(payment.getAmount());
+        payment.setAmount(finalAmount);
+
+        PaymentEntity save = paymentRepository.save(payment);
+
+        observers.forEach(o -> o.notify(save));
+
+        return save;
+    }
+}

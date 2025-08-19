@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: payment
+  datasource:
+    url: jdbc:postgresql://ep-winter-poetry-ae10laa6-pooler.c-2.us-east-2.aws.neon.tech/neondb?sslmode=require
+    username: neondb_owner
+    password: npg_t1ovG5EiaMXJ
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
