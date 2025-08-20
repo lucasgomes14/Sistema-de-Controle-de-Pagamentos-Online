@@ -26,6 +26,8 @@ public class PaymentControllerImpl implements PaymentController {
 
     @Override
     public ResponseEntity<Void> pay(PaymentRequestDTO dto) {
+        paymentService.validateMethodPayment(dto);
+
         PaymentStrategy strategy;
 
         Client client = clientService.saveClient(mapper.toClientEntity(dto));

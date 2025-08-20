@@ -1,6 +1,7 @@
 package com.ifpb.payment.mapper;
 
 import com.ifpb.payment.dto.request.PaymentRequestDTO;
+import com.ifpb.payment.exception.InvalidMethodException;
 import com.ifpb.payment.model.Client;
 import com.ifpb.payment.model.PaymentEntity;
 import org.springframework.stereotype.Component;
