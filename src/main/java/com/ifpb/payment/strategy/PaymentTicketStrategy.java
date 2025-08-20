@@ -1,8 +1,10 @@
 package com.ifpb.payment.strategy;
 
+import java.math.BigDecimal;
+
 public class PaymentTicketStrategy implements PaymentStrategy {
     @Override
-    public double calculateFinalAmount(double amount) {
-        return amount - (amount * 0.05); // desconto de 5%
+    public BigDecimal calculateFinalAmount(BigDecimal amount) {
+        return amount.subtract(amount.multiply(new BigDecimal("0.05"))); // desconto de 5%
     }
 }

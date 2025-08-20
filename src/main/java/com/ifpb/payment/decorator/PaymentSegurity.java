@@ -2,14 +2,16 @@ package com.ifpb.payment.decorator;
 
 import lombok.RequiredArgsConstructor;
 
+import java.math.BigDecimal;
+
 @RequiredArgsConstructor
 public class PaymentSegurity implements Payment {
 
     private final Payment payment;
 
     @Override
-    public double getAmount() {
-        return payment.getAmount() + 5.0;
+    public BigDecimal getAmount() {
+        return payment.getAmount().add(new BigDecimal("5.0"));
     }
 
     @Override

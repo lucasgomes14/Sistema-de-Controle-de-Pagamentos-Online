@@ -2,12 +2,14 @@ package com.ifpb.payment.decorator;
 
 import lombok.RequiredArgsConstructor;
 
+import java.math.BigDecimal;
+
 @RequiredArgsConstructor
 public class PaymentBasic implements Payment {
-    private final double amount;
+    private final BigDecimal amount;
 
     @Override
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 

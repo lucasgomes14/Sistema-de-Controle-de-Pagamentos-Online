@@ -6,6 +6,7 @@ import com.ifpb.payment.repository.PaymentRepository;
 import com.ifpb.payment.strategy.PaymentStrategy;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Component
@@ -20,7 +21,7 @@ public class PaymentFacade {
     }
 
     public PaymentEntity processPayment(PaymentEntity payment, PaymentStrategy strategy) {
-        double finalAmount = strategy.calculateFinalAmount(payment.getAmount());
+        BigDecimal finalAmount = strategy.calculateFinalAmount(payment.getAmount());
         payment.setAmount(finalAmount);
 
         PaymentEntity save = paymentRepository.save(payment);

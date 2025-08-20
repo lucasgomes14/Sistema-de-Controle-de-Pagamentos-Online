@@ -1,5 +1,7 @@
 package com.ifpb.payment.strategy;
 
+import java.math.BigDecimal;
+
 public interface PaymentStrategy {
-    double calculateFinalAmount(double amount);
+    BigDecimal calculateFinalAmount(BigDecimal amount);
 }
