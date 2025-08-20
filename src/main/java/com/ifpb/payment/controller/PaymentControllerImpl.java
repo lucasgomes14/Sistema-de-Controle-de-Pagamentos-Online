@@ -4,6 +4,7 @@ import com.ifpb.payment.dto.request.PaymentRequestDTO;
 import com.ifpb.payment.mapper.PaymentMapper;
 import com.ifpb.payment.model.Client;
 import com.ifpb.payment.model.PaymentEntity;
+import com.ifpb.payment.service.ClientService;
 import com.ifpb.payment.service.PaymentService;
 import com.ifpb.payment.strategy.PaymentCardStrategy;
 import com.ifpb.payment.strategy.PaymentPixStrategy;
@@ -19,14 +20,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/payments")
 public class PaymentControllerImpl implements PaymentController {
 
-    private final PaymentService service;
+    private final PaymentService paymentService;
+    private final ClientService clientService;
     private final PaymentMapper mapper;
 
     @Override
     public ResponseEntity<Void> pay(PaymentRequestDTO dto) {
         PaymentStrategy strategy;
 
-        Client client = service.saveClient(mapper.toClientEntity(dto));
+        Client client = clientService.saveClient(mapper.toClientEntity(dto));
         PaymentEntity payment = mapper.toPaymentEntity(dto, client);
 
         switch (payment.getMethod().toUpperCase()) {
@@ -36,7 +38,7 @@ public class PaymentControllerImpl implements PaymentController {
             default -> throw new IllegalArgumentException("Método de pagamento inválido");
         }
 
-        service.makePayment(payment, strategy);
+        paymentService.makePayment(payment, strategy);
 
         return ResponseEntity.ok().build();
     }
