@@ -13,6 +13,12 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.List;
 
+// ================== FACADE ==================
+// O padrão Facade foi aplicado na classe PaymentFacade.
+// Ele centraliza e simplifica a lógica de processamento de pagamentos,
+// coordenando o uso de Strategy, Decorator, Repository e Observer.
+// Isso deixa os serviços e controladores mais limpos e desacoplados.
+
 @Component
 public class PaymentFacade {
     private final PaymentRepository paymentRepository;
@@ -25,9 +31,11 @@ public class PaymentFacade {
     }
 
     public PaymentEntity processPayment(PaymentEntity payment, PaymentStrategy strategy) {
+        // Usa STRATEGY para calcular o valor final
         BigDecimal finalAmount = strategy.calculateFinalAmount(payment.getAmount());
         Payment decorator = new PaymentBasic(finalAmount);
 
+        // Usa DECORATOR para aplicar funcionalidades extras dinamicamente
         if (payment.getMethod().equalsIgnoreCase("CARTAO")) {
 
             if (payment.isCashback()) {
@@ -39,11 +47,12 @@ public class PaymentFacade {
             }
         }
 
-
         payment.setAmount(decorator.getAmount());
 
+        // Usa REPOSITORY para salvar no banco
         PaymentEntity save = paymentRepository.save(payment);
 
+        // Usa OBSERVER para notificar após salvar
         observers.forEach(o -> o.notify(save));
 
         return save;

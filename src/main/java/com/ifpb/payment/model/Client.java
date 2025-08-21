@@ -1,6 +1,5 @@
 package com.ifpb.payment.model;
 
-import com.ifpb.payment.decorator.Payment;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

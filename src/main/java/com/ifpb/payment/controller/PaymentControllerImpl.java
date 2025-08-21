@@ -3,7 +3,6 @@ package com.ifpb.payment.controller;
 import com.ifpb.payment.dto.request.PaymentRequestDTO;
 import com.ifpb.payment.dto.response.PaymentResponseDTO;
 import com.ifpb.payment.exception.InvalidMethodException;
-import com.ifpb.payment.mapper.PaymentMapper;
 import com.ifpb.payment.model.Client;
 import com.ifpb.payment.model.PaymentEntity;
 import com.ifpb.payment.service.ClientService;

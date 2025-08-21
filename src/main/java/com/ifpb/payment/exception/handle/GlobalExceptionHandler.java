@@ -3,7 +3,6 @@ package com.ifpb.payment.exception.handle;
 import com.ifpb.payment.exception.ClientNotFoundException;
 import com.ifpb.payment.exception.InvalidMethodException;
 import com.ifpb.payment.exception.PaymentNotFoundException;
-import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;

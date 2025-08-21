@@ -8,6 +8,12 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
+// ================== OBSERVER ==================
+// O padrão Observer foi usado para notificar automaticamente os clientes
+// após a realização de um pagamento. Cada observador (ex: EmailObserver)
+// é inscrito na lista da Facade e recebe o evento de pagamento concluído.
+// Isso facilita adicionar/remover notificações sem alterar a lógica central.
+
 @RequiredArgsConstructor
 @Component
 public class EmailObserver implements PaymentObserver {
