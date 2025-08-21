@@ -26,7 +26,6 @@ public class PaymentControllerImpl implements PaymentController {
 
     private final PaymentService paymentService;
     private final ClientService clientService;
-    private final PaymentMapper mapper;
 
     @Override
     public ResponseEntity<Void> pay(Long idClient, PaymentRequestDTO dto) {
@@ -34,7 +33,7 @@ public class PaymentControllerImpl implements PaymentController {
         paymentService.validateMethodPayment(dto);
 
         PaymentStrategy strategy;
-        PaymentEntity payment = mapper.toPaymentEntity(dto, client);
+        PaymentEntity payment = paymentService.paymentEntity(dto, client);
 
         switch (payment.getMethod().toUpperCase()) {
             case "CARTAO" -> strategy = new PaymentCardStrategy();
@@ -50,6 +49,15 @@ public class PaymentControllerImpl implements PaymentController {
 
     @Override
     public ResponseEntity<List<PaymentResponseDTO>> getAllPayments() {
-        return null;
+        List<PaymentResponseDTO> response = paymentService.getAllPayments();
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    @Override
+    public ResponseEntity<PaymentResponseDTO> getPayment(Long id) {
+        PaymentResponseDTO response = paymentService.getPayment(id);
+
+        return ResponseEntity.ok().body(response);
     }
 }
