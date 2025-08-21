@@ -10,3 +10,15 @@ spring:
     hibernate:
       ddl-auto: create
     show-sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: projetoaccenturesummeracademy@gmail.com
+    password: rbgt gtgd zwgh fdby
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
