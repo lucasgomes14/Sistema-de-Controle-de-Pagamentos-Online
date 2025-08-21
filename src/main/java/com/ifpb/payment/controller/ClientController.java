@@ -2,6 +2,7 @@ package com.ifpb.payment.controller;
 
 import com.ifpb.payment.dto.request.ClientRequestDTO;
 import com.ifpb.payment.dto.response.ClientResponseDTO;
+import com.ifpb.payment.dto.response.PaymentClientResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -46,6 +47,18 @@ public interface ClientController {
     })
     @GetMapping("/client/{id}")
     ResponseEntity<ClientResponseDTO> getClient(@PathVariable Long id);
+
+    @Operation(
+            summary = "Retorna pagamentos do cliente específico",
+            description = "Retorna os pagamentos do cliente cadastrados caso o id exista"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Pagamentos do cliente retornado"),
+            @ApiResponse(responseCode = "404", description = "Cliente não existe"),
+            @ApiResponse(responseCode = "500", description = "Erro inesperado")
+    })
+    @GetMapping("/client/payments/{id}")
+    ResponseEntity<List<PaymentClientResponseDTO>> getPaymentsClient(@PathVariable Long id);
 
     @Operation(
             summary = "Atualiza cliente específico",

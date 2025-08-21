@@ -2,6 +2,7 @@ package com.ifpb.payment.controller;
 
 import com.ifpb.payment.dto.request.ClientRequestDTO;
 import com.ifpb.payment.dto.response.ClientResponseDTO;
+import com.ifpb.payment.dto.response.PaymentClientResponseDTO;
 import com.ifpb.payment.service.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -35,6 +36,13 @@ public class ClientControllerImpl implements ClientController {
     @Override
     public ResponseEntity<ClientResponseDTO> getClient(Long id) {
         ClientResponseDTO response = service.getClient(id);
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    @Override
+    public ResponseEntity<List<PaymentClientResponseDTO>> getPaymentsClient(Long id) {
+        List<PaymentClientResponseDTO> response = service.getAllPayments(id);
 
         return ResponseEntity.ok().body(response);
     }

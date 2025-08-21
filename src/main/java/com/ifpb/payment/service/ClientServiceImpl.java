@@ -2,9 +2,11 @@ package com.ifpb.payment.service;
 
 import com.ifpb.payment.dto.request.ClientRequestDTO;
 import com.ifpb.payment.dto.response.ClientResponseDTO;
+import com.ifpb.payment.dto.response.PaymentClientResponseDTO;
 import com.ifpb.payment.exception.ClientNotFoundException;
 import com.ifpb.payment.mapper.ClientMapper;
 import com.ifpb.payment.model.Client;
+import com.ifpb.payment.model.PaymentEntity;
 import com.ifpb.payment.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -66,5 +68,17 @@ public class ClientServiceImpl implements ClientService {
 
     public Client getClientEntity(Long id) {
         return clientRepository.findById(id).orElseThrow(() -> new ClientNotFoundException("Cliente não encontrado"));
+    }
+
+    @Override
+    public List<PaymentClientResponseDTO> getAllPayments(Long id) {
+        Client client = getClientEntity(id);
+        List<PaymentClientResponseDTO> response = new ArrayList<>();
+
+        for (PaymentEntity payment: client.getPayments()) {
+            response.add(new PaymentClientResponseDTO(payment.getAmount(), payment.getMethod(), payment.getLocalDateTime()));
+        }
+
+        return response;
     }
 }
