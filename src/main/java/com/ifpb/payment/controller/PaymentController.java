@@ -20,16 +20,33 @@ public interface PaymentController {
             description = "Recebe no corpo o valor, o método, nome do cliente e email"
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Pagamento realizado"),
+            @ApiResponse(responseCode = "201", description = "Pagamento realizado"),
             @ApiResponse(responseCode = "400", description = "Alguma entrada errada"),
             @ApiResponse(responseCode = "500", description = "Erro inesperado")
     })
     @PostMapping("/pay/{idClient}")
     ResponseEntity<Void> pay(@PathVariable Long idClient, @Valid @RequestBody PaymentRequestDTO dto);
 
+    @Operation(
+            summary = "Retorna todos pagamentos",
+            description = "Retorna todos os pagamentos cadastrados no sistema"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Pagamentos retornados"),
+            @ApiResponse(responseCode = "500", description = "Erro inesperado")
+    })
     @GetMapping("/payments")
     ResponseEntity<List<PaymentResponseDTO>> getAllPayments();
 
+    @Operation(
+            summary = "Retorna o pagamento específico",
+            description = "Retorna o pagamento específico do sistema caso exista"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Pagamentos retornados"),
+            @ApiResponse(responseCode = "404", description = "Pagamento não existe"),
+            @ApiResponse(responseCode = "500", description = "Erro inesperado")
+    })
     @GetMapping("/payment/{id}")
     ResponseEntity<PaymentResponseDTO> getPayment(@PathVariable Long id);
 }

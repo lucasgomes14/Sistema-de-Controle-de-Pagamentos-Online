@@ -13,6 +13,7 @@ import com.ifpb.payment.strategy.PaymentPixStrategy;
 import com.ifpb.payment.strategy.PaymentStrategy;
 import com.ifpb.payment.strategy.PaymentTicketStrategy;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,7 +45,7 @@ public class PaymentControllerImpl implements PaymentController {
 
         paymentService.makePayment(payment, strategy);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Override
