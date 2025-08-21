@@ -30,5 +30,6 @@ public class PaymentEntity {
     private LocalDateTime localDateTime;
 
     @ManyToOne
+    @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 }

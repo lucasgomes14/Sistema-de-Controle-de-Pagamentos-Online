@@ -1,10 +1,14 @@
 package com.ifpb.payment.model;
 
+import com.ifpb.payment.decorator.Payment;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_client")
@@ -22,4 +26,7 @@ public class Client {
 
     @Column(unique = true, nullable = false)
     private String email;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<PaymentEntity> payments = new ArrayList<>();
 }

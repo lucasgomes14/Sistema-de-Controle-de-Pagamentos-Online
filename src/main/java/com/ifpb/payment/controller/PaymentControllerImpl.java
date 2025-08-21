@@ -1,6 +1,8 @@
 package com.ifpb.payment.controller;
 
 import com.ifpb.payment.dto.request.PaymentRequestDTO;
+import com.ifpb.payment.dto.response.PaymentResponseDTO;
+import com.ifpb.payment.exception.InvalidMethodException;
 import com.ifpb.payment.mapper.PaymentMapper;
 import com.ifpb.payment.model.Client;
 import com.ifpb.payment.model.PaymentEntity;
@@ -15,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/payments")
@@ -25,23 +29,27 @@ public class PaymentControllerImpl implements PaymentController {
     private final PaymentMapper mapper;
 
     @Override
-    public ResponseEntity<Void> pay(PaymentRequestDTO dto) {
+    public ResponseEntity<Void> pay(Long idClient, PaymentRequestDTO dto) {
+        Client client = clientService.getClientEntity(idClient);
         paymentService.validateMethodPayment(dto);
 
         PaymentStrategy strategy;
-
-        Client client = clientService.saveClient(mapper.toClientEntity(dto));
         PaymentEntity payment = mapper.toPaymentEntity(dto, client);
 
         switch (payment.getMethod().toUpperCase()) {
             case "CARTAO" -> strategy = new PaymentCardStrategy();
             case "PIX" -> strategy = new PaymentPixStrategy();
             case "BOLETO" -> strategy = new PaymentTicketStrategy();
-            default -> throw new IllegalArgumentException("Método de pagamento inválido");
+            default -> throw new InvalidMethodException("Método de pagamento inválido");
         }
 
         paymentService.makePayment(payment, strategy);
 
         return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<List<PaymentResponseDTO>> getAllPayments() {
+        return null;
     }
 }
