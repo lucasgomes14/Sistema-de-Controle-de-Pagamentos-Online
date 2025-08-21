@@ -11,7 +11,7 @@ public class PaymentCashback implements Payment {
 
     @Override
     public BigDecimal getAmount() {
-        return payment.getAmount().multiply(new BigDecimal("0.01"));
+        return payment.getAmount().subtract(payment.getAmount().multiply(new BigDecimal("0.05")));
     }
 
     @Override

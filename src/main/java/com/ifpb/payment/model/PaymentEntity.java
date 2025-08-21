@@ -29,6 +29,10 @@ public class PaymentEntity {
     @Column(nullable = false)
     private LocalDateTime localDateTime;
 
+    private boolean security;
+
+    private boolean cashback;
+
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;

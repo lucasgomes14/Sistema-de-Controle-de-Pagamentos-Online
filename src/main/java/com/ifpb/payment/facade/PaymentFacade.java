@@ -1,5 +1,9 @@
 package com.ifpb.payment.facade;
 
+import com.ifpb.payment.decorator.Payment;
+import com.ifpb.payment.decorator.PaymentBasic;
+import com.ifpb.payment.decorator.PaymentCashback;
+import com.ifpb.payment.decorator.PaymentSegurity;
 import com.ifpb.payment.model.PaymentEntity;
 import com.ifpb.payment.observer.PaymentObserver;
 import com.ifpb.payment.repository.PaymentRepository;
@@ -22,7 +26,21 @@ public class PaymentFacade {
 
     public PaymentEntity processPayment(PaymentEntity payment, PaymentStrategy strategy) {
         BigDecimal finalAmount = strategy.calculateFinalAmount(payment.getAmount());
-        payment.setAmount(finalAmount);
+        Payment decorator = new PaymentBasic(finalAmount);
+
+        if (payment.getMethod().equalsIgnoreCase("CARTAO")) {
+
+            if (payment.isCashback()) {
+                decorator = new PaymentCashback(decorator);
+            }
+
+            if (payment.isSecurity()) {
+                decorator = new PaymentSegurity(decorator);
+            }
+        }
+
+
+        payment.setAmount(decorator.getAmount());
 
         PaymentEntity save = paymentRepository.save(payment);
 

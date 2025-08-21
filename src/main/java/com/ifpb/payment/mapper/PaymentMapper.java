@@ -17,6 +17,11 @@ public class PaymentMapper {
         entity.setLocalDateTime(LocalDateTime.now());
         entity.setClient(client);
 
+        if (dto.method().equalsIgnoreCase("CARTAO")) {
+            entity.setSecurity(dto.security());
+            entity.setCashback(dto.cashback());
+        }
+
         return entity;
     }
 }
