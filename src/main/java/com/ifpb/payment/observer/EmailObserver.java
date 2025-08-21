@@ -31,6 +31,5 @@ public class EmailObserver implements PaymentObserver {
             throw new MailException("Erro ao enviar email") {
             };
         }
-        System.out.println("Email notification: " + payment.getClient().getEmail());
     }
 }
